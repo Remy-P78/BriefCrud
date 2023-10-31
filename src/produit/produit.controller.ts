@@ -5,16 +5,17 @@ import { UpdateProduitDto } from './dto/update-produit.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('produit')
+@UseGuards(AuthGuard())
 export class ProduitController {
   constructor(private readonly produitService: ProduitService) {}
 
-  @Post()
-  @UseGuards(AuthGuard())
+  @Post()  
   create(@Body() createProduitDto: CreateProduitDto) {
     return this.produitService.create(createProduitDto);
   }
 
   @Get()
+  @UseGuards(AuthGuard())
   findAll() {
     return this.produitService.findAll();
   }
@@ -25,13 +26,11 @@ export class ProduitController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard())
   update(@Param('id') id: string, @Body() updateProduitDto: UpdateProduitDto) {
     return this.produitService.update(+id, updateProduitDto);
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard())
   remove(@Param('id') id: string) {
     return this.produitService.remove(+id);
   }
